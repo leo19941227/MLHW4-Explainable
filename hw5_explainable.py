@@ -117,6 +117,7 @@ class FoodDataset(Dataset):
 # 給予 data 的路徑，回傳每一張圖片的「路徑」和「class」
 def get_paths_labels(path):
     imgnames = os.listdir(path)
+    imgnames.sort()
     imgpaths = []
     labels = []
     for name in imgnames:
@@ -179,7 +180,7 @@ def compute_saliency_maps(x, y, model):
   return saliencies
 
 # 指定想要一起 visualize 的圖片 indices
-img_indices = [0, 500, 1000, 1500]
+img_indices = [83, 4218, 4707, 8598]
 images, labels = train_set.getbatch(img_indices)
 saliencies = compute_saliency_maps(images, labels, model)
 
@@ -275,7 +276,7 @@ def filter_explaination(x, model, cnnid, filterid, iteration=100, lr=1):
 
   return filter_activations, filter_visualization
 
-img_indices = [0, 500, 1000, 1500]
+img_indices = [83, 4218, 4707, 8598]
 images, labels = train_set.getbatch(img_indices)
 filter_activations, filter_visualization = filter_explaination(images, model, cnnid=15, filterid=0, iteration=1000, lr=0.1)
 
@@ -316,7 +317,7 @@ def segmentation(input):
     # 利用 skimage 提供的 segmentation 將圖片分成 100 塊
     return slic(input, n_segments=100, compactness=1, sigma=1)
 
-img_indices = [0, 500, 1000, 1500]
+img_indices = [83, 4218, 4707, 8598]
 images, labels = train_set.getbatch(img_indices)
 fig, axs = plt.subplots(1, 4, figsize=(15, 8))
 np.random.seed(16)
