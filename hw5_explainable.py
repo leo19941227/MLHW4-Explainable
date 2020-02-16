@@ -197,7 +197,7 @@ for row, target in enumerate([images, saliencies]):
     # - 第 1 個 dimension 為原本 img 的第 2 個 dimension，也就是 width
     # - 第 2 個 dimension 為原本 img 的第 0 個 dimension，也就是 channels
 
-plt.show()
+plt.savefig('saliency_map.png')
 # 從第二張圖片的 saliency，我們可以發現 model 有認出蛋黃的位置
 # 從第三、四張圖片的 saliency，雖然不知道 model 細部用食物的哪個位置判斷，但可以發現 model 找出了食物的大致輪廓
 
@@ -281,7 +281,7 @@ filter_activations, filter_visualization = filter_explaination(images, model, cn
 
 # 畫出 filter visualization
 plt.imshow(normalize(filter_visualization.permute(1, 2, 0)))
-plt.show()
+plt.savefig('filter_visualization.png')
 # 根據圖片中的線條，可以猜測第 15 層 cnn 其第 0 個 filter 可能在認一些線條、甚至是 object boundary
 # 因此給 filter 看一堆對比強烈的線條，他會覺得有好多 boundary 可以 activate
 
@@ -291,7 +291,7 @@ for i, img in enumerate(images):
   axs[0][i].imshow(img.permute(1, 2, 0))
 for i, img in enumerate(filter_activations):
   axs[1][i].imshow(normalize(img))
-plt.show()
+plt.savefig('filter_activation.png')
 # 從下面四張圖可以看到，activate 的區域對應到一些物品的邊界，尤其是顏色對比較深的邊界
 
 """## Lime
@@ -341,6 +341,6 @@ for idx, (image, label) in enumerate(zip(images.permute(0, 2, 3, 1).numpy(), lab
 
     axs[idx].imshow(lime_img)
 
-plt.show()
+plt.savefig('lime.png')
 # 從以下前三章圖可以看到，model 有認出食物的位置，並以該位置為主要的判斷依據
 # 唯一例外是第四張圖，看起來 model 似乎比較喜歡直接去認「碗」的形狀，來判斷該圖中屬於 soup 這個 class
