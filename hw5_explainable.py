@@ -280,6 +280,7 @@ images, labels = train_set.getbatch(img_indices)
 filter_activations, filter_visualization = filter_explaination(images, model, cnnid=15, filterid=0, iteration=1000, lr=0.1)
 
 # 畫出 filter visualization
+plt.figure(figsize=(15, 8))
 plt.imshow(normalize(filter_visualization.permute(1, 2, 0)))
 plt.savefig('filter_visualization.png')
 # 根據圖片中的線條，可以猜測第 15 層 cnn 其第 0 個 filter 可能在認一些線條、甚至是 object boundary
