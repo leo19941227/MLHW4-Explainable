@@ -139,9 +139,16 @@ train_set = FoodDataset(train_paths, train_labels, mode='eval')
 - model parameter
 - label
 
-通常的情況下，我們想要改變 model parameter 來 fit image 和 label。因此 loss 在計算 backward 時我們只在乎 **loss 對 model parameter** 的偏微分值。但數學上 image 本身也是 continuous tensor，我們可以計算  **loss 對 image** 的偏微分值。這個偏微分值代表「在 model parameter 和 label 都固定下，稍微改變 image 的某個 pixel value 會對 loss 產生什麼變化」。人們習慣把這個變化的劇烈程度解讀成該 pixel 的重要性 (每個 pixel 都有自己的偏微分值)。因此把同一張圖中，loss 對每個 pixel 的偏微分值畫出來，就可以看出該圖中哪些位置是 model 在判斷時的重要依據。
+通常的情況下，我們想要改變 model parameter 來 fit image 和 label
+因此 loss 在計算 backward 時我們只在乎 **loss 對 model parameter** 的偏微分值
+但數學上 image 本身也是 continuous tensor，我們可以計算  **loss 對 image** 的偏微分值
+這個偏微分值代表「在 model parameter 和 label 都固定下，稍微改變 image 的某個 pixel value 會對 loss 產生什麼變化」
+人們習慣把這個變化的劇烈程度解讀成該 pixel 的重要性 (每個 pixel 都有自己的偏微分值)
+因此把同一張圖中，loss 對每個 pixel 的偏微分值畫出來，就可以看出該圖中哪些位置是 model 在判斷時的重要依據
 
-實作上非常簡單，過去我們都是 forward 後算出 loss，然後進行 backward。而這個 backward，pytorch 預設是計算 **loss 對 model parameter** 的偏微分值，因此我們只需要用一行 code 額外告知 pytorch，**image** 也是要算偏微分的對象之一。
+實作上非常簡單，過去我們都是 forward 後算出 loss，然後進行 backward
+而這個 backward，pytorch 預設是計算 **loss 對 model parameter** 的偏微分值
+因此我們只需要用一行 code 額外告知 pytorch，**image** 也是要算偏微分的對象之一
 """
 
 def normalize(image):
@@ -205,7 +212,10 @@ plt.show()
 loss = model(image)
 loss.backward()
 ```
-我們要怎麼得到中間某層 CNN 的 output? 當然我們可以直接修改 model definition，讓 forward 不只 return loss，也 return activation map。但這樣的寫法太不漂亮了，更改了 forward 的 output 可能會讓其他部分的 code 要跟著改動。因此 pytorch 提供了方便的 solution: **hook**，以下我們會再介紹。
+我們要怎麼得到中間某層 CNN 的 output?
+當然我們可以直接修改 model definition，讓 forward 不只 return loss，也 return activation map
+但這樣的寫法太不漂亮了，更改了 forward 的 output 可能會讓其他部分的 code 要跟著改動
+因此 pytorch 提供了方便的 solution: **hook**，以下我們會再介紹。
 """
 
 def normalize(image):
@@ -286,7 +296,8 @@ plt.show()
 
 """## Lime
 
-Lime 的部分因為有現成的套件可以使用，因此下方直接 demo 如何使用該套件。其實非常的簡單，只需要 implement 兩個 function 即可。
+Lime 的部分因為有現成的套件可以使用，因此下方直接 demo 如何使用該套件
+其實非常的簡單，只需要 implement 兩個 function 即可
 """
 
 def predict(input):
